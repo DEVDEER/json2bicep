@@ -1,0 +1,23 @@
+name: 'blog CI/CD'
+
+env:
+  APP_LOCATION: "/" # location of your client code  
+  APP_ARTIFACT_LOCATION: "src" # location of client code build output
+
+on:    
+  pull_request:
+    branches: [ main ] 
+jobs:  
+  build:    
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: true      
+      - uses: Azure/static-web-apps-deploy@1a947af9992250f3bc2e68ad0754c0b0c11566c9
+        name: Deploy
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+          action: "upload"
+          app_location: ${{ env.APP_LOCATION }}          
+          app_artifact_location: ${{ env.APP_ARTIFACT_LOCATION }}
